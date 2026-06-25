@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Veterinaria San Martín - Turnos</title>
+</head>
+<body>
+    <h2>Registro de Turno - Veterinaria "San Martín"</h2>
+    
+    <form action="procesar_turno.php" method="POST">
+        <label>Nombre de la mascota:</label><br>
+        <input type="text" name="nombre_mascota" required><br><br>
+
+        <label>Especie:</label><br>
+        <select name="especie" required>
+            <option value="perro">Perro</option>
+            <option value="gato">Gato</option>
+            <option value="conejo">Conejo</option>
+            <option value="reptil">Reptil</option>
+            <option value="ave">Ave</option>
+            <option value="otro">Otro</option>
+        </select><br><br>
+
+        <label>Edad:</label><br>
+        <input type="number" name="edad" min="0" max="30" required><br><br>
+
+        <label>Peso (kg):</label><br>
+        <input type="number" name="peso" min="0" step="0.1" required><br><br>
+
+        <label>Nombre del Dueño:</label><br>
+        <input type="text" name="duenio" required><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br><br>
+
+        <label>Servicio:</label><br>
+        <select name="servicio" required>
+            <option value="consulta">Consulta</option>
+            <option value="vacuna">Vacuna</option>
+            <option value="cirugia">Cirugía</option>
+            <option value="internacion">Internación</option>
+            <option value="peluqueria">Peluquería</option>
+        </select><br><br>
+
+        <label>Mensaje (no requerido):</label><br>
+        <textarea name="mensaje"></textarea><br><br>
+
+        <button type="submit">Enviar Turno</button>
+    </form>
+</body>
+</html>

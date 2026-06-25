@@ -1,0 +1,13 @@
+#
+# Date: Sun Jun 29 16:31:40 CST 2014
+# Inhaltsverzeichnis der verfuegbaren Updates
+# kategorie | Name | Beschreibung | Dateiname des Updates | Classpath-Ergaenzung | relatives Zielverzeichnis | Groesse | Version ab | Version bis | Gueltig fuer Programmversion
+# A C H T U N G: Bei den Versionen und bei der Groessenangabe der Update-Files duerfen 
+#	zwischen "|" und den Ziffern keine Leerzeichen stehen!
+#
+language| Chinese V8|V8 Readme, Onlinehelp and user interface|Chinese_V8.luf|-|.|10323405|8.0.0|8.9.99|-9|all
+language|English V8|V8 Readme, Onlinehelp and user interface|english_V8.luf|-|.|10391476|8.0.0|8.9.99|-9|all
+language|Francais V8|V8 Readme, Onlinehelp and user interface|french_V8.luf|-|.|11356152|8.0.0|8.9.99|-9|all
+language|Deutsch V8|V8 Liesmich, Onlinehilfe und Bedienoberfläche|german_V8.luf|-|.|11310714|8.0.0|8.9.99|-9|all
+language| Italiano V8|V8 Readme, Onlinehelp and user interface|italian_V8.luf|-|.|11193676|8.0.0|8.9.99|-9|all
+language| Espanol V8|V8 Readme, Onlinehelp and user interface|spanish_V8.luf|-|.|11332961|8.0.0|8.9.99|-9|all

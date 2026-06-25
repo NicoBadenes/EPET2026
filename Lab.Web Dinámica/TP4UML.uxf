@@ -1,0 +1,47 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>550</x><y>190</y><w>210</w><h>60</h></coordinates><panel_attributes>HUB
+--
+- Cantidad de puertos: Int
+- Puertos ocupados: Int
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>640</x><y>90</y><w>240</w><h>160</h></coordinates><panel_attributes>lt=&lt;&lt;-
+m1=esclavo
+m2=maestro</panel_attributes><additional_attributes>120;130;220;130;220;10;10;10;10;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>290</y><w>210</w><h>50</h></coordinates><panel_attributes>RED
+--
+- id_red
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>400</x><y>210</y><w>170</w><h>100</h></coordinates><panel_attributes>lt=&lt;-
+m2=n..n</panel_attributes><additional_attributes>10;80;10;10;150;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>460</y><w>210</w><h>60</h></coordinates><panel_attributes>IMPRESORA
+--
+- id_impresora
+- tipo</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>400</x><y>330</y><w>50</w><h>150</h></coordinates><panel_attributes>lt=&lt;-
+m2=n..n</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>40</x><y>560</y><w>210</w><h>90</h></coordinates><panel_attributes>DISPOSITIVOS
+--
+- id
+- ip_priv
+- ip_pub
+- mac_adress</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>240</x><y>510</y><w>210</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;70;190;70;190;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>540</x><y>460</y><w>210</w><h>90</h></coordinates><panel_attributes>PC
+--
+- id_pc
+- memoria
+- ram
+- hilos</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>640</x><y>240</y><w>50</w><h>240</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..1
+</panel_attributes><additional_attributes>10;10;10;220</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>330</y><w>160</w><h>150</h></coordinates><panel_attributes>lt=&lt;-
+m2=n..n</panel_attributes><additional_attributes>140;130;140;80;10;80;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>700</x><y>310</y><w>210</w><h>80</h></coordinates><panel_attributes>MENSAJE
+--
+- id_mensaje
+- tamaño
+--
+* mandar_mensaje()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>690</x><y>380</y><w>160</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m2=1..n</panel_attributes><additional_attributes>10;80;10;40;120;40;120;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>480</x><y>630</y><w>210</w><h>80</h></coordinates><panel_attributes>CABLE
+--
+- id_cable
+- velocidad
+- tipo</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>240</x><y>630</y><w>260</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m2= 0..n</panel_attributes><additional_attributes>240;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>930</x><y>470</y><w>210</w><h>100</h></coordinates><panel_attributes>SERVER
+--
+- id_server
+- tipo
+--
+* asign_ip()
+* asign_mac()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>240</x><y>560</y><w>820</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;50;800;50;800;10</additional_attributes></element><element><id>Relation</id><coordinates><x>900</x><y>340</y><w>160</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m2=1..n</panel_attributes><additional_attributes>140;130;140;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>750</x><y>230</y><w>360</w><h>260</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..n</panel_attributes><additional_attributes>10;10;340;10;340;240</additional_attributes></element></diagram>

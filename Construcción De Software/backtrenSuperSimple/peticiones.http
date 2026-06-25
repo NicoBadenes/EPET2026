@@ -1,0 +1,49 @@
+@url = http://127.0.0.1:3000
+
+### Chequear Express
+GET {{url}}/health
+
+### Chequear Base de Datos
+GET {{url}}/health/db
+
+### ==============================
+### CRUD DE USUARIOS
+### ==============================
+
+### 1. CREAR UN USUARIO (POST)
+# Selecciona "Send Request" aquí primero para tener datos con los que trabajar
+POST {{url}}/users
+Content-Type: application/json
+
+{
+  "name": "Nicolás",
+  "email": "nicolasbadenes@epet12smandes.edu.ar",
+  "password_hash": "supersecreta123",
+  "role": "STUDENT"
+}
+
+### 2. OBTENER TODOS LOS USUARIOS (GET)
+# Debería devolverte una lista (array) con el usuario que acabas de crear
+GET {{url}}/users
+
+### 3. OBTENER UN USUARIO POR ID (GET)
+# Asumiendo que el usuario que creaste recibió el ID 1
+GET {{url}}/users/1
+
+### 4. ACTUALIZAR UN USUARIO (PUT)
+# Vamos a cambiarle el rol o el nombre al usuario 1
+PUT {{url}}/users/1
+Content-Type: application/json
+
+{
+  "name": "Nicolás (Editado)",
+  "role": "PROFESSOR"
+}
+
+### 5. ELIMINAR UN USUARIO (DELETE)
+# Esto hará el "Soft Delete", poniendo la fecha actual en deleted_at
+DELETE {{url}}/users/1
+
+### 6. VERIFICAR QUE SE ELIMINÓ (GET)
+# Si vuelves a pedir la lista completa, el usuario 1 ya no debería aparecer
+GET {{url}}/users

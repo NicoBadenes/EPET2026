@@ -1,0 +1,96 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+interface Rastreable {
+  {abstract} +actualizarCoordenadas(lat: double, lon: double): void
+}
+
+abstract class Pedido {
+    -idPedido: String
+    -costoEnvio: double
+
+    +Pedido(idPedido: String, costoEnvio: double)
+    +getIdPedido(): String
+    +setIdPedido(idPedido: String): void
+    +getCostoEnvio(): double
+    +setCostoEnvio(costoEnvio: double): void
+    {abstract} +calcularTotal(): double
+    +procesarDescuento(calc: CalculadoraDescuento): double
+}
+
+class CalcularCupones {
+    +CalcularCupones()
+    +obtenerDescuentoDia(): double
+    +obtenerDescuentoZona(localidad: String): double
+}
+
+class DespachoDiario {
+    -codigoDespacho: String
+    -enviosPlanificados: List<EnvioPremium>
+
+    +DespachoDiario(codigoDespacho: String)
+    +getCodigoDespacho(): String
+    +setCodigoDespacho(codigoDespacho: String): void
+    +agregarEnvio(e: EnvioPremium): void
+    +removerEnvio(e: EnvioPremium): void
+    +getEnviosPlanificados(): List<EnvioPremium>
+}
+
+class "Pedido Comida" {
+    -esVegano: boolean
+    +PedidoComida(idPedido: String, costoEnvio: double, esVegano: boolean)
+    -isEsVegano(): boolean
+    +setEsVegano(esVegano: boolean): void
+    +calcularTotal(): double
+    ---Implementación de Rastreable---
+    +actualizarCoordenadas(lat: double, lon: double): void
+}
+
+class EnvíoPremium {
+    -pesoPaquete: double
+    -paradas: List<ParadaEntrega>
+    -RepartidorAsignado: Repartidor
+    + EnvioPremium(idPedido: String, costoEnvio: double, pesoPaquete: double)
+    +getPesoPaquete(): double
+    +setPesoPaquete(pesoPaquete: double): void
+    +getRepartidoAsignado(): Repartidor
+    +setRepartidorAsignado(r: Repartidor): void
+    +AgregarParada(direccion: String, minutosEspera: double): void
+    +getParadas(): List<ParadaEntrega>
+    +calcularTotal(): double
+    ---Implementación de Rastreable---
+    -actualizarCoordenadas(lat: double, lon: double): void
+}
+
+class ParadaEntrega {
+    -direccion: String
+    -minutosEspera: double
+    
+    +ParadaEntrega(direccion: String, minutosEspera: double)
+    +getDireccion(): String
+    +setDireccion(direccion: String): void
+    +getMinutosEspera(): double
+    +setMinutosEspera(minutosEspera: double): void
+}
+
+class Repartidor {
+    -idVehiculo: String
+    -capacidadCarga: double
+
+    +Repartidor(idVehiculo: String, capacidadCarga: double)
+    +getIdVehiculo(): String
+    +setIdVehiculo(idVehiculo: String): void
+    +getCapacidadCarga(): double
+    +setCapacidadCarga(capacidadCarga: double): void
+}   
+
+Rastreable <|.. Pedido
+Pedido <|-- "Pedido Comida"
+Pedido <|-- EnvíoPremium
+Pedido ..> CalcularCupones : <<use>>
+DespachoDiario "0..1" o-- "0..*" EnvíoPremium
+EnvíoPremium *-- "1..*" ParadaEntrega
+EnvíoPremium "0..*" --> "1" Repartidor
+
+@enduml

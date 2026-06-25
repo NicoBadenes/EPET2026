@@ -1,0 +1,8 @@
+# Ignorar carpetas del sistema y de usuario que no son de la app
+/home/nico/.steam/
+/home/nico/.local/
+/home/nico/.cache/
+/home/nico/.config/
+node_modules/
+.git/
+.expo/

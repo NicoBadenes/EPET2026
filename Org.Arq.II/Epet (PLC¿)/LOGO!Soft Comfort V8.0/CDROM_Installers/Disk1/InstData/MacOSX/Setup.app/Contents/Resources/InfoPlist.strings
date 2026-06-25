@@ -1,0 +1,6 @@
+/* Localized versions of Info.plist keys */
+
+CFBundleName = "LOGO!Soft Comfort V8.0 ";
+CFBundleShortVersionString = "InstallAnywhere 2012 Installer";
+CFBundleGetInfoString = "InstallAnywhere 2012 Installer";
+NSHumanReadableCopyright = "Copyright © 2012 Flexera Software LLC";

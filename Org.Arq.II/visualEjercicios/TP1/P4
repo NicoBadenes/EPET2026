@@ -1,0 +1,12 @@
+			MOV		R0, #99
+			MOV		R1, #64
+cuatroquesos
+			ADD		R2, R0, R1
+			CMP		R2, #100
+			
+			MOVLS	R0, R2
+			
+			LSR		R1, R1, #1
+			CMP		R1, #0
+			BNE		cuatroquesos
+			

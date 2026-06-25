@@ -1,0 +1,2 @@
+-- Database Seed
+-- Insert initial data here

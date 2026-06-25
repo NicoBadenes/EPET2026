@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "pomodoro",
+    "slug": "pomodoro",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/supertomato.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.aucan.pomodoro"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "795ddb40-0dbd-4759-9ed8-196a95428deb"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/795ddb40-0dbd-4759-9ed8-196a95428deb"
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}

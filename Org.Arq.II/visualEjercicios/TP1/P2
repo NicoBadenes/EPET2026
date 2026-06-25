@@ -1,0 +1,5 @@
+		MOV		R0, #5
+		CMP		R0, #0
+		
+		RSBLT	R0, R0, #0
+	

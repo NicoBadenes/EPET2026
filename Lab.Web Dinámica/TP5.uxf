@@ -1,0 +1,41 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>0</x><y>200</y><w>210</w><h>120</h></coordinates><panel_attributes>PERSONA
+--
+- id_persona: int
+- nombre: String
+- mail: String
+- dni: Int
+- telefono: Int
+- cantidad_faltas: int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>350</x><y>200</y><w>210</w><h>120</h></coordinates><panel_attributes>PROFESOR
+--
+- id_profesor: int
+- puntaje: int
+- num_materias: int
+- horas_tomadas: float
+--
++ registrar_evaluaciones()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>250</y><w>170</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;150;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>430</y><w>210</w><h>110</h></coordinates><panel_attributes>ESTUDIANTE
+--
+- id_estudiante: int
+- curso: String
+- division: String
+- cant_asignaturas: int
+--
++ inscribirse()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>310</y><w>30</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;120</additional_attributes></element><element><id>UMLClass</id><coordinates><x>350</x><y>430</y><w>210</w><h>90</h></coordinates><panel_attributes>ASIGNATURA
+--
+- id_asignatura: int
+- nombre: String
+- contenido: String
+- carga_hora: float</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>310</y><w>50</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=0..n</panel_attributes><additional_attributes>10;10;10;120</additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>470</y><w>170</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m2=n..n</panel_attributes><additional_attributes>10;10;150;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>660</y><w>210</w><h>90</h></coordinates><panel_attributes>DESEMPEÑO
+--
+- id_desempeño_ int
+- promedio: float
+- faltas: int
+- asignatura: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>530</y><w>50</w><h>150</h></coordinates><panel_attributes>lt=&lt;-
+m2=1..n</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>350</x><y>670</y><w>210</w><h>70</h></coordinates><panel_attributes>EVALUACION
+--
+- id_evaluacion: Int
+- nota: Float</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>700</y><w>170</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m2=1..n</panel_attributes><additional_attributes>10;10;150;10</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>510</y><w>50</w><h>180</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=n..n
+</panel_attributes><additional_attributes>10;10;10;160</additional_attributes></element></diagram>

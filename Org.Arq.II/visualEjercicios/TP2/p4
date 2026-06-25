@@ -1,0 +1,6 @@
+MOV R0, #255        
+LDR R2, =1234        
+MOV R3, #0x10000      
+STR R2, [R3]         
+ADD R4, R2, R2       
+STR R4, [R3, #4]     

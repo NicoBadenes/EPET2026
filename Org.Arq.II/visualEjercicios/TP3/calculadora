@@ -1,0 +1,47 @@
+			MOV		R0, #3 ;op1
+			MOV		R1, #5 ;op2
+			
+			MOV		R2, #3 ;NumOperador
+			
+			MOV		R11, #1 ;trash bit
+			MOV		R12, #0 ;trash bit
+			MOV		R10, #-1 ;trash bit
+			
+			CMP		R2, #2 ;comp Operacion
+			
+			BCC		suma
+			BEQ		resta
+			BHI		multiplicacion
+			
+			;---
+			
+suma
+			ADD		R3, R0, R1 ;suma op1 y op2
+			END
+			
+			;---
+			
+resta
+			SUB		R3, R0, R1 ;resta op1 y op2
+			END
+			
+			;---
+multiplicacion
+			
+			MOV		R3, #0      ; sumador
+			MOV		R11, #1     ; index de mascara
+			
+again
+			
+			ANDS		R4, R1, R11 ; Compara R1 con la máscara R11
+			
+			ADDNE	R3, R3, R0  ; Suma R0 al total (R3)
+			
+			LSL		R0, R0, #1  ; Desplaza R0 (op1)
+			
+			LSLS		R11, R11, #1 ; Mueve el index
+			
+			BNE		again
+			
+			END
+			;---

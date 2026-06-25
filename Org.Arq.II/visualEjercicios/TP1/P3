@@ -1,0 +1,7 @@
+		MOV		R0, #0
+		MOV		R1, #1
+		CMP		R0, #100
+empanada
+		ADD		R0, R0, R1
+		CMP		R0, #100
+		BLT		empanada
