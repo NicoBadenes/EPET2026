@@ -6,13 +6,16 @@ import {
   Image,
   StyleSheet,
   Text,
-  View
+  TextInput,
+  View,
 } from "react-native";
 import { supabase } from "../lib/supabase";
 
 export default function BookList() {
   const [books, setBooks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editTitle, setEditTitle] = useState("");
 
   const fetchBooks = async () => {
     const { data, error } = await supabase
@@ -24,6 +27,62 @@ export default function BookList() {
     setLoading(false);
   };
 
+  // NUEVA FUNCIÓN: Llama a la Edge Function de Supabase
+  const handleGetAverage = async (bookId: number, bookTitle: string) => {
+    try {
+      const { data, error } = await supabase.functions.invoke(
+        "calcular-promedio",
+        {
+          body: { book_id: bookId },
+        },
+      );
+
+      if (error) throw error;
+
+      if (data && data.total_reviews > 0) {
+        window.alert(
+          `Promedio de "${bookTitle}": ${data.average_rating} ⭐\n(Basado en ${data.total_reviews} reseñas)`,
+        );
+      } else {
+        window.alert(`El libro "${bookTitle}" todavía no tiene reseñas.`);
+      }
+    } catch (error: any) {
+      console.error(error);
+      window.alert("Error al obtener promedio: " + error.message);
+    }
+  };
+
+  const handleUpdate = async (book: any) => {
+    if (!editTitle || editTitle === book.title) {
+      setEditingId(null);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from("books")
+        .update({ title: editTitle })
+        .eq("id", book.id)
+        .select();
+
+      if (error) throw error;
+
+      if (!data || data.length === 0) {
+        window.alert(
+          "Acceso denegado: No tenés permisos para editar este libro.",
+        );
+        setEditingId(null);
+        return;
+      }
+
+      window.alert("Libro actualizado correctamente.");
+      setEditingId(null);
+    } catch (error: any) {
+      console.error(error);
+      window.alert("Error de BD: " + error.message);
+    }
+  };
+
   const handleDelete = async (book: any) => {
     const confirmar = window.confirm(
       `¿Estás seguro de que querés eliminar "${book.title}"?`,
@@ -31,6 +90,21 @@ export default function BookList() {
     if (!confirmar) return;
 
     try {
+      const { data, error: dbError } = await supabase
+        .from("books")
+        .delete()
+        .eq("id", book.id)
+        .select();
+
+      if (dbError) throw dbError;
+
+      if (!data || data.length === 0) {
+        window.alert(
+          "Acceso denegado: No tenés permisos para eliminar este libro.",
+        );
+        return;
+      }
+
       if (book.cover_url) {
         const urlParts = book.cover_url.split("/");
         const fileName = urlParts[urlParts.length - 1];
@@ -39,14 +113,6 @@ export default function BookList() {
         }
       }
 
-      const { error: dbError } = await supabase
-        .from("books")
-        .delete()
-        .eq("id", book.id);
-
-      if (dbError) throw dbError;
-
-      setBooks((prevBooks) => prevBooks.filter((b) => b.id !== book.id));
       window.alert("Libro y archivo eliminados correctamente.");
     } catch (error: any) {
       console.error(error);
@@ -57,7 +123,6 @@ export default function BookList() {
   useEffect(() => {
     fetchBooks();
 
-    // Tiempo real para inserciones y eliminaciones
     const channel = supabase
       .channel("public:books")
       .on(
@@ -69,6 +134,10 @@ export default function BookList() {
           } else if (payload.eventType === "DELETE") {
             setBooks((prevBooks) =>
               prevBooks.filter((b) => b.id !== payload.old.id),
+            );
+          } else if (payload.eventType === "UPDATE") {
+            setBooks((prevBooks) =>
+              prevBooks.map((b) => (b.id === payload.new.id ? payload.new : b)),
             );
           }
         },
@@ -92,7 +161,18 @@ export default function BookList() {
           {item.cover_url && (
             <Image source={{ uri: item.cover_url }} style={styles.cover} />
           )}
-          <Text style={styles.title}>{item.title}</Text>
+
+          {editingId === item.id ? (
+            <TextInput
+              style={styles.input}
+              value={editTitle}
+              onChangeText={setEditTitle}
+              autoFocus
+            />
+          ) : (
+            <Text style={styles.title}>{item.title}</Text>
+          )}
+
           <Text style={styles.author}>
             {item.author} {item.publish_year ? `- ${item.publish_year}` : ""}
           </Text>
@@ -100,7 +180,32 @@ export default function BookList() {
             <Text style={styles.synopsis}>{item.synopsis}</Text>
           ) : null}
 
-          <View style={styles.deleteButtonContainer}>
+          <View style={styles.buttonContainer}>
+            {/* BOTÓN EDGE FUNCTION */}
+            <Button
+              title="Ver Promedio ⭐"
+              color="#17a2b8"
+              onPress={() => handleGetAverage(item.id, item.title)}
+            />
+            <View style={{ height: 10 }} />
+
+            {editingId === item.id ? (
+              <Button
+                title="Guardar Cambios"
+                color="#28a745"
+                onPress={() => handleUpdate(item)}
+              />
+            ) : (
+              <Button
+                title="Editar Título"
+                color="#007bff"
+                onPress={() => {
+                  setEditingId(item.id);
+                  setEditTitle(item.title);
+                }}
+              />
+            )}
+            <View style={{ height: 10 }} />
             <Button
               title="Eliminar Libro y Archivo"
               color="#dc3545"
@@ -135,7 +240,14 @@ const styles = StyleSheet.create({
   title: { fontSize: 18, fontWeight: "bold", color: "#333" },
   author: { fontSize: 14, color: "#666", marginTop: 4 },
   synopsis: { fontSize: 14, color: "#444", marginTop: 8 },
-  deleteButtonContainer: {
-    marginTop: 12,
+  buttonContainer: { marginTop: 12 },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 6,
+    padding: 8,
+    fontSize: 18,
+    fontWeight: "bold",
+    backgroundColor: "#fafafa",
   },
 });
