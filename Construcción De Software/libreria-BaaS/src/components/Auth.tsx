@@ -32,6 +32,29 @@ export default function Auth() {
     setLoading(false);
   }
 
+  async function forgotPassword() {
+    if (!email) {
+      Alert.alert(
+        "Atención",
+        "Ingresá tu correo en el campo de arriba para recuperar la contraseña.",
+      );
+      return;
+    }
+    setLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin,
+    });
+    setLoading(false);
+    if (error) {
+      Alert.alert("Error", error.message);
+    } else {
+      Alert.alert(
+        "Correo enviado",
+        "Revisá tu bandeja de entrada para restablecer tu contraseña.",
+      );
+    }
+  }
+
   async function signInWithGoogle() {
     setLoading(true);
     try {
@@ -82,6 +105,12 @@ export default function Auth() {
             title="Registrarse"
             onPress={signUpWithEmail}
             color="#28a745"
+          />
+          <View style={styles.spacing} />
+          <Button
+            title="Recuperar Contraseña"
+            onPress={forgotPassword}
+            color="#ffc107"
           />
           <View style={styles.spacing} />
           <Button

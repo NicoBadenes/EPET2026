@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Button,
   FlatList,
   Image,
   StyleSheet,
   Text,
-  View,
+  View
 } from "react-native";
 import { supabase } from "../lib/supabase";
 
@@ -23,17 +24,53 @@ export default function BookList() {
     setLoading(false);
   };
 
+  const handleDelete = async (book: any) => {
+    const confirmar = window.confirm(
+      `¿Estás seguro de que querés eliminar "${book.title}"?`,
+    );
+    if (!confirmar) return;
+
+    try {
+      if (book.cover_url) {
+        const urlParts = book.cover_url.split("/");
+        const fileName = urlParts[urlParts.length - 1];
+        if (fileName) {
+          await supabase.storage.from("covers").remove([fileName]);
+        }
+      }
+
+      const { error: dbError } = await supabase
+        .from("books")
+        .delete()
+        .eq("id", book.id);
+
+      if (dbError) throw dbError;
+
+      setBooks((prevBooks) => prevBooks.filter((b) => b.id !== book.id));
+      window.alert("Libro y archivo eliminados correctamente.");
+    } catch (error: any) {
+      console.error(error);
+      window.alert("Error de BD: " + error.message);
+    }
+  };
+
   useEffect(() => {
     fetchBooks();
 
-    // Esto hace que la lista escuche cambios en tiempo real
+    // Tiempo real para inserciones y eliminaciones
     const channel = supabase
       .channel("public:books")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "books" },
+        { event: "*", schema: "public", table: "books" },
         (payload) => {
-          setBooks((prevBooks) => [payload.new, ...prevBooks]);
+          if (payload.eventType === "INSERT") {
+            setBooks((prevBooks) => [payload.new, ...prevBooks]);
+          } else if (payload.eventType === "DELETE") {
+            setBooks((prevBooks) =>
+              prevBooks.filter((b) => b.id !== payload.old.id),
+            );
+          }
         },
       )
       .subscribe();
@@ -49,7 +86,7 @@ export default function BookList() {
     <FlatList
       data={books}
       keyExtractor={(item) => item.id.toString()}
-      style={{ width: "100%", marginTop: 20 }}
+      style={{ width: "100%", marginTop: 10 }}
       renderItem={({ item }) => (
         <View style={styles.card}>
           {item.cover_url && (
@@ -62,6 +99,14 @@ export default function BookList() {
           {item.synopsis ? (
             <Text style={styles.synopsis}>{item.synopsis}</Text>
           ) : null}
+
+          <View style={styles.deleteButtonContainer}>
+            <Button
+              title="Eliminar Libro y Archivo"
+              color="#dc3545"
+              onPress={() => handleDelete(item)}
+            />
+          </View>
         </View>
       )}
     />
@@ -90,4 +135,7 @@ const styles = StyleSheet.create({
   title: { fontSize: 18, fontWeight: "bold", color: "#333" },
   author: { fontSize: 14, color: "#666", marginTop: 4 },
   synopsis: { fontSize: 14, color: "#444", marginTop: 8 },
+  deleteButtonContainer: {
+    marginTop: 12,
+  },
 });
