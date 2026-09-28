@@ -1,24 +1,43 @@
-const CACHE_NAME = 'biblioteca-v1';
+const CACHE_NAME = 'biblioteca-v3'; 
 const ARCHIVOS_A_GUARDAR = [
   '/',
   '/manifest.json',
+  '/offline' 
 ];
 
 self.addEventListener('install', (event) => {
-  console.log('Service Worker: instalando...');
+  self.skipWaiting(); // ¡Esto fuerza la actualización inmediata!
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ARCHIVOS_A_GUARDAR))
   );
 });
 
 self.addEventListener('activate', (event) => {
-  console.log('Service Worker: activado');
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
 });
 
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((respuestaEnCache) => {
-      return respuestaEnCache || fetch(event.request);
-    })
-  );
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => {
+        return caches.match('/offline');
+      })
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then((respuestaEnCache) => {
+        return respuestaEnCache || fetch(event.request);
+      })
+    );
+  }
 });
