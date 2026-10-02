@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "app.vercel.frontend_biblioteca_roan.twa",
+        "sha256_cert_fingerprints": ["E8:BE:18:E5:38:0A:89:12:D6:34:71:14:1A:C3:D7:5C:3A:D7:14:D8:44:C8:3C:9E:EF:A0:F0:FD:8F:3E:EB:3F"]
+      }
+    }]
