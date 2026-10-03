@@ -12,7 +12,7 @@ interface Libro {
 export default async function LibrosPage() {
   try {
     // 1. Hacemos el fetch a tu API local (Paso 2)
-    const res = await fetch('http://127.0.0.1:8000/api/libros', { 
+    const res = await fetch('https://afhtu-201-220-189-178.run.pinggy-free.link', { 
       cache: 'no-store' // Para que no guarde caché y traiga datos frescos siempre
     });
     
